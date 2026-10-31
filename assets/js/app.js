@@ -1,4 +1,3 @@
-   
 (function () {
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -24,6 +23,18 @@
         links.classList.remove('open');
         menu.setAttribute('aria-expanded', 'false');
       });
+    });
+
+    function closeMenu() {
+      links.classList.remove('open');
+      menu.setAttribute('aria-expanded', 'false');
+    }
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.nav')) closeMenu();
+    });
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 1100) closeMenu();
     });
 
     function moveTo(a) {
@@ -59,7 +70,7 @@
     }
 
     var role = document.getElementById('role');
-    var roles = ['web developer', 'Python builder', 'future backend and DevOps engineer'];
+    var roles = ['Software Developer', 'IT Support Specialist', 'DevOps Enthusiasts'];
     var i = 0;
     if (!reduce) {
       setInterval(function () {
