@@ -70,7 +70,7 @@
     }
 
     var role = document.getElementById('role');
-    var roles = ['Software Developer', 'IT Support Specialist', 'DevOps Enthusiasts'];
+    var roles = ['web developer', 'IT Support Specialist', 'DevOps enthusiasts'];
     var i = 0;
     if (!reduce) {
       setInterval(function () {
@@ -120,5 +120,29 @@
         if (!running) { running = true; requestAnimationFrame(tick); }
       });
     }
+  });
+})();
+// About section: photo fallback and scroll reveal
+(function () {
+  document.addEventListener('DOMContentLoaded', function () {
+    var frame = document.querySelector('.frame');
+    var img = frame && frame.querySelector('img');
+    if (img) {
+      var miss = function () { frame.classList.add('nophoto'); };
+      img.addEventListener('error', miss);
+      if (img.complete && img.naturalWidth === 0) miss();
+    }
+
+    var items = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      items.forEach(function (el) { el.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.15 });
+    items.forEach(function (el) { io.observe(el); });
   });
 })();
